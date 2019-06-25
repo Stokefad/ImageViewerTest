@@ -19,20 +19,34 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uLP-Pa-0gb">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VkO-B8-Hn2">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="aeI-eT-oGw"/>
+                                </constraints>
+                                <items>
+                                    <navigationItem title="Offline" id="UvC-yI-78Q"/>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="uLP-Pa-0gb" firstAttribute="top" secondItem="VkO-B8-Hn2" secondAttribute="bottom" id="5Vn-O1-ZGx"/>
+                            <constraint firstItem="VkO-B8-Hn2" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="FEI-v1-Lxv"/>
                             <constraint firstItem="uLP-Pa-0gb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ID0-xV-Phf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uLP-Pa-0gb" secondAttribute="trailing" id="MCQ-H7-46U"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="uLP-Pa-0gb" secondAttribute="bottom" id="MPF-2k-0FG"/>
-                            <constraint firstItem="uLP-Pa-0gb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Wv7-3A-mPh"/>
+                            <constraint firstItem="VkO-B8-Hn2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="U9Z-y2-Bsu"/>
+                            <constraint firstItem="uLP-Pa-0gb" firstAttribute="top" secondItem="VkO-B8-Hn2" secondAttribute="bottom" id="am4-UV-t1P"/>
+                            <constraint firstItem="VkO-B8-Hn2" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="axr-T6-eo6"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="networkStatusBar" destination="UvC-yI-78Q" id="Ylg-TF-TZg"/>
                         <outlet property="tableView" destination="uLP-Pa-0gb" id="rcP-BW-fn0"/>
                     </connections>
                 </viewController>

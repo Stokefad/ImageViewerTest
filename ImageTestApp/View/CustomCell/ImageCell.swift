@@ -12,6 +12,7 @@ class ImageCell: UITableViewCell {
     
     let cellImageView = UIImageView()
     let authorLabel = UILabel()
+    let dateLabel = UILabel()
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,6 +39,11 @@ class ImageCell: UITableViewCell {
             }
         }
         
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        let dateStr = formatter.string(from: imageModel.dateDownloaded)
+        
         authorLabel.font = UIFont.systemFont(ofSize: 24)
         authorLabel.textColor = UIColor.black
         authorLabel.frame.origin = CGPoint(x: 30, y: imageViewHeight + 35)
@@ -45,9 +51,17 @@ class ImageCell: UITableViewCell {
         authorLabel.text = imageModel.author
         authorLabel.sizeToFit()
         
-        if cellImageView.superview == nil, authorLabel.superview == nil {
+        dateLabel.font = UIFont.systemFont(ofSize: 14)
+        dateLabel.textColor = UIColor.gray
+        dateLabel.frame.size = CGSize(width: 5000, height: 1000)
+        dateLabel.text = dateStr
+        dateLabel.sizeToFit()
+        dateLabel.frame.origin = CGPoint(x: self.frame.width - dateLabel.frame.width - 30, y: CGFloat(imageViewHeight + 35 + Double(authorLabel.frame.height) + 10))
+        
+        if cellImageView.superview == nil, authorLabel.superview == nil, dateLabel.superview == nil {
             self.addSubview(cellImageView)
             self.addSubview(authorLabel)
+            self.addSubview(dateLabel)
         }
         
     }

@@ -10,7 +10,6 @@
 		2DCBCDAB22C11BD900A3C1DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCBCDAA22C11BD900A3C1DB /* AppDelegate.swift */; };
 		2DCBCDAD22C11BD900A3C1DB /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCBCDAC22C11BD900A3C1DB /* MainVC.swift */; };
 		2DCBCDB022C11BD900A3C1DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DCBCDAE22C11BD900A3C1DB /* Main.storyboard */; };
-		2DCBCDB322C11BDA00A3C1DB /* ImageTestApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2DCBCDB122C11BDA00A3C1DB /* ImageTestApp.xcdatamodeld */; };
 		2DCBCDB522C11BDD00A3C1DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2DCBCDB422C11BDD00A3C1DB /* Assets.xcassets */; };
 		2DCBCDB822C11BDD00A3C1DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DCBCDB622C11BDD00A3C1DB /* LaunchScreen.storyboard */; };
 		2DCBCDC522C11DD100A3C1DB /* ConstantsFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCBCDC422C11DD100A3C1DB /* ConstantsFile.swift */; };
@@ -30,7 +29,6 @@
 		2DCBCDAA22C11BD900A3C1DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2DCBCDAC22C11BD900A3C1DB /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		2DCBCDAF22C11BD900A3C1DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		2DCBCDB222C11BDA00A3C1DB /* ImageTestApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ImageTestApp.xcdatamodel; sourceTree = "<group>"; };
 		2DCBCDB422C11BDD00A3C1DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2DCBCDB722C11BDD00A3C1DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2DCBCDB922C11BDD00A3C1DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -85,7 +83,6 @@
 				2DCBCDC022C11C4300A3C1DB /* View */,
 				2DCBCDBF22C11C4100A3C1DB /* Model */,
 				2DCBCDAA22C11BD900A3C1DB /* AppDelegate.swift */,
-				2DCBCDB122C11BDA00A3C1DB /* ImageTestApp.xcdatamodeld */,
 				2DCBCDB922C11BDD00A3C1DB /* Info.plist */,
 				2DCBCDB422C11BDD00A3C1DB /* Assets.xcassets */,
 				2DCBCDD422C1381900A3C1DB /* Default-568h@2x.png */,
@@ -311,7 +308,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DCBCDB322C11BDA00A3C1DB /* ImageTestApp.xcdatamodeld in Sources */,
 				2DCBCDC922C121E000A3C1DB /* ImageModel.swift in Sources */,
 				2DCBCDC722C11E1A00A3C1DB /* ImageViewModel.swift in Sources */,
 				2DCBCDD322C1315100A3C1DB /* ImageSizer.swift in Sources */,
@@ -521,19 +517,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		2DCBCDB122C11BDA00A3C1DB /* ImageTestApp.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				2DCBCDB222C11BDA00A3C1DB /* ImageTestApp.xcdatamodel */,
-			);
-			currentVersion = 2DCBCDB222C11BDA00A3C1DB /* ImageTestApp.xcdatamodel */;
-			path = ImageTestApp.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 2DCBCD9F22C11BD900A3C1DB /* Project object */;
 }

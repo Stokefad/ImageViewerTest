@@ -17,15 +17,42 @@ class MainVC : UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var networkStatusBar: UINavigationItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        checkForError()
+        configureNetworkStatusLabel()
         ImageVM.shared.startImageFetching()
         configureTableView()
         driveTableView()
         cellWasSelected()
     }
-
+    
+    private func configureNetworkStatusLabel() {
+        ImageVM.shared.networkRelay.asObservable().subscribe { [unowned self] (value) in
+            guard let element = value.element else {
+                return
+            }
+            self.networkStatusBar.title = element ? "Online" : "Offline"
+        }
+            .disposed(by: dBag)
+    }
+    
+    private func checkForError() {
+        ImageVM.shared.successRelay.asObservable().subscribe { [unowned self] (value) in
+            if value.element == false {
+                let controller = UIAlertController(title: "Error", message: "You don't have both network connection and local images", preferredStyle: .alert)
+                controller.addAction(UIAlertAction(title: "Retry", style: .default, handler: { (action) in
+                    ImageVM.shared.startImageFetching()
+                }))
+                
+                self.present(controller, animated: true, completion: nil)
+            }
+        }
+            .disposed(by: dBag)
+    }
 }
 
 // Rx tableView

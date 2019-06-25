@@ -20,6 +20,9 @@ class ImageVM {
     public static let shared = ImageVM()
     
     public var imagesRelay = BehaviorRelay(value: [ImageModel]())
+    public var networkRelay = BehaviorRelay(value: Bool())
+    public var successRelay = BehaviorRelay(value: Bool())
+    
     fileprivate var images = [ImageModel]()
     
     let realm = try! Realm()
@@ -34,8 +37,13 @@ class ImageVM {
                 case .failure(let error):
                     self.retriveImagesFromCache()
                     print("No connection - \(error.localizedDescription)")
+                    self.networkRelay.accept(false)
+                    self.successRelay.accept(true)
+                    return
                 case .success(_):
                     print("Success")
+                    self.networkRelay.accept(true)
+                    self.successRelay.accept(true)
                 }
                 
                 guard let data = response.result.value as? [Dictionary<String, Any>] else {
@@ -57,6 +65,11 @@ class ImageVM {
     fileprivate func retriveImagesFromCache() {
         
         let result = realm.objects(RealmImageModel.self)
+        
+        if result.count == 0 {
+            successRelay.accept(false)
+            return
+        }
 
         for image in result {
             let model = ImageModel(image: image)
@@ -101,7 +114,7 @@ class ImageVM {
     
     
     fileprivate func cacheNewImage(image : ImageModel) {
-        DispatchQueue(label: "background").async {
+        DispatchQueue(label: "queue.backgroundlocal").async {
             autoreleasepool {
                 
                 let realm = try! Realm()
