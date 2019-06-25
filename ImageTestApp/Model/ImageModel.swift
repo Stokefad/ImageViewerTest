@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import RealmSwift
 
 
 class ImageModel {
@@ -18,7 +19,6 @@ class ImageModel {
         }
         
         guard id as? String != nil, author as? String != nil, height as? Int != nil, width as? Int != nil, url as? String != nil else {
-            print("prob")
             return
         }
         
@@ -28,6 +28,15 @@ class ImageModel {
         self.size.height = CGFloat(height as! Int)
         self.size.width = CGFloat(width as! Int)
         
+    }
+    
+    init(image : RealmImageModel) {
+
+        self.author = image.author
+        self.dateDownloaded = image.downloadDate
+        self.size.height = CGFloat(image.height)
+        self.size.width = CGFloat(image.width)
+        self.image = UIImage(data: image.image)
     }
     
     var id : String = String()
@@ -40,5 +49,17 @@ class ImageModel {
     var image : UIImage?
     
     var dateDownloaded = Date()
+    
+}
+
+
+class RealmImageModel : Object {
+    
+    @objc dynamic var downloadURL : String = String()
+    @objc dynamic var image = Data()
+    @objc dynamic var author = String()
+    @objc dynamic var height = Int()
+    @objc dynamic var width = Int()
+    @objc dynamic var downloadDate = Date()
     
 }

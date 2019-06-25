@@ -28,14 +28,15 @@ class ImageCell: UITableViewCell {
         
         self.backgroundColor = UIColor.white
         
-        guard let image = imageModel.image else {
-            return
-        }
-        
         let imageViewHeight = ImageSizer.sizeImageViewHeight(model: imageModel, view: self)
         
         cellImageView.frame = CGRect(x: 15, y: 15, width: Double(self.frame.width - 30), height: imageViewHeight)
-        cellImageView.image = image
+        
+        if let image = imageModel.image {
+            DispatchQueue.main.async {
+                self.cellImageView.image = image
+            }
+        }
         
         authorLabel.font = UIFont.systemFont(ofSize: 24)
         authorLabel.textColor = UIColor.black
@@ -48,7 +49,7 @@ class ImageCell: UITableViewCell {
             self.addSubview(cellImageView)
             self.addSubview(authorLabel)
         }
-    
+        
     }
     
 }

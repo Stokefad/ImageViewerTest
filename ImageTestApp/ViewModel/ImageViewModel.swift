@@ -10,30 +10,30 @@ import Foundation
 import RxSwift
 import RxCocoa
 import Alamofire
-import CoreData
+import RealmSwift
 
 
 class ImageVM {
     
-    static let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let queue = DispatchQueue(label: "queue.imageDownloader")
     
     public static let shared = ImageVM()
     
     public var imagesRelay = BehaviorRelay(value: [ImageModel]())
     fileprivate var images = [ImageModel]()
     
+    let realm = try! Realm()
+    
     public func startImageFetching() {
         
-        let queue = DispatchQueue(label: "queue.imageDownloader")
         var responseImageList = [ImageModel]()
-        print("started")
-        queue.async {
-            Alamofire.request(IMAGES_URL, method: .get).responseJSON { response in
+           queue.async {
+            Alamofire.request(IMAGES_URL, method: .get).responseJSON { [unowned self] response in
                 
                 switch response.result {
                 case .failure(let error):
+                    self.retriveImagesFromCache()
                     print("No connection - \(error.localizedDescription)")
-                    
                 case .success(_):
                     print("Success")
                 }
@@ -46,8 +46,8 @@ class ImageVM {
                     responseImageList.append(ImageModel(json: item))
                 }
                 
-                for imageModel in responseImageList {
-                    ImageVM.shared.donwloadImage(imageModel: imageModel)
+                for image in responseImageList {
+                    self.donwloadImage(imageModel: image)
                 }
             }
         }
@@ -55,67 +55,82 @@ class ImageVM {
     }
     
     fileprivate func retriveImagesFromCache() {
-        let fetchRequet = NSFetchRequest<Image>()
         
-        do {
-            
+        let result = realm.objects(RealmImageModel.self)
+
+        for image in result {
+            let model = ImageModel(image: image)
+            images.append(model)
         }
-        catch {
-            
-        }
+        imagesRelay.accept(images)
     }
     
     fileprivate func donwloadImage(imageModel : ImageModel) {
-        Alamofire.request(imageModel.downloadURL, method: .get).responseData { (data) in
-          //  print("\(imageModel.downloadURL) - url")
-            guard let data = data.data else {
-                return
+        
+        DispatchQueue(label: "queue.backgroundDownloading").async {
+            Alamofire.request(imageModel.downloadURL, method: .get).responseData { (data) in
+                //  print("\(imageModel.downloadURL) - url")
+                guard let data = data.data else {
+                    return
+                }
+                
+                guard let image = UIImage(data: data) else {
+                    return
+                }
+                
+                imageModel.image = image.resizeImageWith(ratio: UIScreen.main.bounds.size.width / image.size.width * 0.5)
+                
+                imageModel.dateDownloaded = Date()
+                
+                ImageVM.shared.images.append(imageModel)
+                
+                ImageVM.shared.imagesRelay.accept(ImageVM.shared.images)
+                
+                if ImageVM.shared.images.count == 1 {
+                    ImageVM.shared.deletePreviousImages()
+                }
+                
+                ImageVM.shared.cacheNewImage(image: imageModel)
+                
+                print(ImageVM.shared.images.count)
+                
             }
-            
-            guard let image = UIImage(data: data) else {
-                return
-            }
-            
-            imageModel.image = image
-            imageModel.dateDownloaded = Date()
-            
-            ImageVM.shared.images.append(imageModel)
-            ImageVM.shared.cacheNewImages()
-            ImageVM.shared.imagesRelay.accept(ImageVM.shared.images)
         }
+
     }
     
-    fileprivate func cacheNewImages() {
-        
-        if images.count < 30 {
-            return
-        }
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Image")
-        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        
-        do {
-            try ImageVM.context.execute(batchDeleteRequest)
-            
-        }
-        catch {
-            print("Unable to delete entity - Image")
-        }
-        
-        for image in images {
-            let imageItem = Image(context: ImageVM.context)
-            imageItem.image = image.image
-            imageItem.author = image.author
-            imageItem.dateDownloaded = image.dateDownloaded
-            imageItem.height = Int16(image.size.height)
-            imageItem.width = Int16(image.size.width)
-            
-            do {
-                try ImageVM.context.save()
+    
+    fileprivate func cacheNewImage(image : ImageModel) {
+        DispatchQueue(label: "background").async {
+            autoreleasepool {
+                
+                let realm = try! Realm()
+                
+                let imageItem = RealmImageModel()
+                if let image = image.image {
+                    if let data = image.jpegData(compressionQuality: 0.3) {
+                        imageItem.image = data
+                    }
+                }
+                imageItem.author = image.author
+                imageItem.downloadDate = image.dateDownloaded
+                imageItem.height = Int(image.size.height)
+                imageItem.width = Int(image.size.width)
+                
+                try! realm.write {
+                    realm.add(imageItem)
+                }
+                
             }
-            catch {
-                print("Unable to save image")
-            }
+        }
+        
+    }
+    
+    fileprivate func deletePreviousImages() {
+        let result = realm.objects(RealmImageModel.self)
+        
+        try! realm.write {
+            realm.delete(result)
         }
         
     }
