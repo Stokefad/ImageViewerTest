@@ -105,8 +105,6 @@ class ImageVM {
                 
                 ImageVM.shared.cacheNewImage(image: imageModel)
                 
-                print(ImageVM.shared.images.count)
-                
             }
         }
 
