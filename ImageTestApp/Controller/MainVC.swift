@@ -90,6 +90,9 @@ class MainVC : UIViewController {
                     }
                 }
             }).disposed(by: dBag)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                self.loadingView.removeFromSuperview()
+            }
         }
     }
 }

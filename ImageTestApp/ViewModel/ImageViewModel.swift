@@ -71,7 +71,13 @@ class ImageVM {
         }
 
         for image in result {
+            var str = String()
             let model = ImageModel(image: image)
+            for _ in 0 ... Int.random(in: 0 ... 20) {
+                str += "fidjsfghdfghidsjhfjhds \n"
+            }
+            
+            model.strText = str
             images.append(model)
         }
         imagesRelay.accept(images)
