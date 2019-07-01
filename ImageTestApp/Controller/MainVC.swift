@@ -14,6 +14,8 @@ import RxCocoa
 class MainVC : UIViewController {
     
     let dBag = DisposeBag()
+    
+    var loadingView = LoadingView()
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -22,6 +24,7 @@ class MainVC : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        loadingView = LoadingView(sender: self)
         checkForError()
         configureNetworkStatusLabel()
         ImageVM.shared.startImageFetching()
@@ -53,6 +56,42 @@ class MainVC : UIViewController {
         }
             .disposed(by: dBag)
     }
+    
+    private func checkIsLastCellShown() {
+        guard let paths = tableView.indexPathsForVisibleRows else {
+            return
+        }
+        
+        guard let last = paths.last else {
+            return
+        }
+        
+        if last.row > IMAGES_NUMBER * IMAGES_PAGE - 6, tableView.contentOffset.y > tableView.contentSize.height * 0.8 {
+            ImageVM.shared.startImageFetching()
+        }
+    }
+    
+    private func checkIsLoadingViewNeeded() {
+        guard let paths = tableView.indexPathsForVisibleRows else {
+            return
+        }
+        
+        guard let last = paths.last else {
+            return
+        }
+        
+        if last.row % IMAGES_NUMBER - 1 == 0, ImageVM.shared.imagesRelay.value.count - 14 < last.row {
+            self.view.addSubview(self.loadingView)
+            self.tableView.setContentOffset(tableView.contentOffset, animated: false)
+            ImageVM.shared.imagesRelay.asObservable().subscribe(onNext: { [unowned self] model in
+                if ImageVM.shared.imagesRelay.value.count - 13 > last.row {
+                    DispatchQueue.main.async {
+                        self.loadingView.removeFromSuperview()
+                    }
+                }
+            }).disposed(by: dBag)
+        }
+    }
 }
 
 // Rx tableView
@@ -79,11 +118,15 @@ extension MainVC {
 
 extension MainVC : UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(ImageSizer.sizeImageViewHeight(model: ImageVM.shared.imagesRelay.value[indexPath.row], view: tableView)) + 100
+        return CGFloat(ImageSizer.sizeImageViewHeight(model: ImageVM.shared.imagesRelay.value[indexPath.row], view: tableView) + TextViewSizer.returnTVHeight(string: ImageVM.shared.imagesRelay.value[indexPath.row].strText)) + 115
     }
- 
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        self.checkIsLastCellShown()
+        self.checkIsLoadingViewNeeded()
+    }
+    
     private func configureTableView() {
-        
         self.tableView.delegate = self
         
         self.tableView.register(ImageCell.self, forCellReuseIdentifier: "ImageCell")

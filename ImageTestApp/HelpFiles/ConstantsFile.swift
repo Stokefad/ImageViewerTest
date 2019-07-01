@@ -12,4 +12,4 @@ import Foundation
 
 public let IMAGES_URL = "https://picsum.photos/v2/list?page=\(IMAGES_PAGE)&limit=\(IMAGES_NUMBER)"
 public let IMAGES_NUMBER = 15
-public let IMAGES_PAGE = 2
+public var IMAGES_PAGE = 0

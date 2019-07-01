@@ -28,11 +28,10 @@ class ImageVM {
     let realm = try! Realm()
     
     public func startImageFetching() {
-        
         var responseImageList = [ImageModel]()
-           queue.async {
+        IMAGES_PAGE += 1
+        queue.async {
             Alamofire.request(IMAGES_URL, method: .get).responseJSON { [unowned self] response in
-                
                 switch response.result {
                 case .failure(let error):
                     self.retriveImagesFromCache()
@@ -95,8 +94,15 @@ class ImageVM {
                 
                 imageModel.dateDownloaded = Date()
                 
-                ImageVM.shared.images.append(imageModel)
+                var str = String()
                 
+                for _ in 0 ... Int.random(in: 0 ... 20) {
+                    str += "fidjsfghdfghidsjhfjhds \n"
+                }
+                
+                imageModel.strText = str
+                
+                ImageVM.shared.images.append(imageModel)
                 ImageVM.shared.imagesRelay.accept(ImageVM.shared.images)
                 
                 if ImageVM.shared.images.count == 1 {

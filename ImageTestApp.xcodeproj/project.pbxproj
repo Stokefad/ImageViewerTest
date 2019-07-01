@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D8EA68422CA54CA00A3D624 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8EA68322CA54CA00A3D624 /* LoadingView.swift */; };
 		2DCBCDAB22C11BD900A3C1DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCBCDAA22C11BD900A3C1DB /* AppDelegate.swift */; };
 		2DCBCDAD22C11BD900A3C1DB /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCBCDAC22C11BD900A3C1DB /* MainVC.swift */; };
 		2DCBCDB022C11BD900A3C1DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DCBCDAE22C11BD900A3C1DB /* Main.storyboard */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		03635A6E6D6293FB3E1B9754 /* Pods-ImageTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageTestApp.debug.xcconfig"; path = "Target Support Files/Pods-ImageTestApp/Pods-ImageTestApp.debug.xcconfig"; sourceTree = "<group>"; };
+		2D8EA68322CA54CA00A3D624 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		2DCBCDA722C11BD900A3C1DB /* ImageTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DCBCDAA22C11BD900A3C1DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2DCBCDAC22C11BD900A3C1DB /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -56,6 +58,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D8EA68222CA54B600A3D624 /* LoadingView */ = {
+			isa = PBXGroup;
+			children = (
+				2D8EA68322CA54CA00A3D624 /* LoadingView.swift */,
+			);
+			path = LoadingView;
+			sourceTree = "<group>";
+		};
 		2DCBCD9E22C11BD900A3C1DB = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +111,7 @@
 		2DCBCDC022C11C4300A3C1DB /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2D8EA68222CA54B600A3D624 /* LoadingView */,
 				2DCBCDD622C147D200A3C1DB /* FullScreenView */,
 				2DCBCDCB22C12D9B00A3C1DB /* CustomCell */,
 				2DCBCDCA22C12D9000A3C1DB /* Storyboards */,
@@ -316,6 +327,7 @@
 				2DCBCDAB22C11BD900A3C1DB /* AppDelegate.swift in Sources */,
 				2DCBCDD022C12DEE00A3C1DB /* ImageCell.swift in Sources */,
 				2DCBCDC522C11DD100A3C1DB /* ConstantsFile.swift in Sources */,
+				2D8EA68422CA54CA00A3D624 /* LoadingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,6 +13,8 @@ class ImageCell: UITableViewCell {
     let cellImageView = UIImageView()
     let authorLabel = UILabel()
     let dateLabel = UILabel()
+    let descriptionTV = UITextView()
+    var strHeight = CGFloat()
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -51,17 +53,27 @@ class ImageCell: UITableViewCell {
         authorLabel.text = imageModel.author
         authorLabel.sizeToFit()
         
+        descriptionTV.frame.origin = CGPoint(x: 30, y: authorLabel.frame.origin.y + authorLabel.frame.height + 15)
+        descriptionTV.frame.size = CGSize(width: self.frame.width - 60, height: 10000)
+        descriptionTV.font = UIFont.systemFont(ofSize: 17)
+        descriptionTV.backgroundColor = UIColor.white
+        
+        descriptionTV.text = imageModel.strText
+        descriptionTV.sizeToFit()
+        descriptionTV.isEditable = false
+        
         dateLabel.font = UIFont.systemFont(ofSize: 14)
         dateLabel.textColor = UIColor.gray
         dateLabel.frame.size = CGSize(width: 5000, height: 1000)
         dateLabel.text = dateStr
         dateLabel.sizeToFit()
-        dateLabel.frame.origin = CGPoint(x: self.frame.width - dateLabel.frame.width - 30, y: CGFloat(imageViewHeight + 35 + Double(authorLabel.frame.height) + 10))
+        dateLabel.frame.origin = CGPoint(x: self.frame.width - dateLabel.frame.width - 30, y: CGFloat(imageViewHeight + 35 + Double(authorLabel.frame.height) + 25 + Double(descriptionTV.frame.height)))
         
-        if cellImageView.superview == nil, authorLabel.superview == nil, dateLabel.superview == nil {
+        if cellImageView.superview == nil, authorLabel.superview == nil, dateLabel.superview == nil, descriptionTV.superview == nil {
             self.addSubview(cellImageView)
             self.addSubview(authorLabel)
             self.addSubview(dateLabel)
+            self.addSubview(descriptionTV)
         }
         
     }

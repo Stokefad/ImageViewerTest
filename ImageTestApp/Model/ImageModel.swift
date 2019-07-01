@@ -50,6 +50,8 @@ class ImageModel {
     
     var dateDownloaded = Date()
     
+    var strText = String()
+    
 }
 
 

@@ -19,6 +19,21 @@ class ImageSizer {
     
 }
 
+class TextViewSizer {
+    public static func returnTVHeight(string : String) -> Double {
+        
+        let descriptionTV = UITextView()
+        
+        descriptionTV.frame.size = CGSize(width: UIScreen.main.bounds.width - 60, height: 10000)
+        descriptionTV.font = UIFont.systemFont(ofSize: 17)
+        
+        descriptionTV.text = string
+        descriptionTV.sizeToFit()
+        
+        return Double(descriptionTV.frame.height)
+    }
+}
+
 extension UIImage {
     
     func resizeImageWith(ratio: CGFloat) -> UIImage {
